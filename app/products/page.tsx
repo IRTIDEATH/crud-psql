@@ -48,7 +48,10 @@ const Product = async () => {
                     <tr key={product.id}>
                         <td>{index + 1}</td>
                         <td>{product.title}</td>
-                        <td>{product.price}</td>
+                        <td>{product.price && product.price.toLocaleString("id-ID", {
+                            style: "currency",
+                            currency: "IDR"
+                        })}</td>
                         <td>{product.brand.name}</td>
                         <td className="flex justify-center space-x-2">
                             <UpdateProduct brands={brands} product={product}/>
