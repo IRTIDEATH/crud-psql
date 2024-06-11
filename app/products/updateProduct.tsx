@@ -17,10 +17,13 @@ const UpdateProduct = ({brands, product}: {brands: Brand[]; product: Product}) =
     const [price, setPrice] = useState(product.price)
     const [brand, setBrand] = useState(product.brandId)
 
+    const [isLoading, setIsLoading] = useState(false)
+
     const router = useRouter()
 
     const handleUpdate = async (e: SyntheticEvent) => {
         e.preventDefault()
+        setIsLoading(true)
         // '/api/products' itu dari folder api/products yang dimana si const POST ngirim res, res nya itu create, lalu di consume sama axios dan berfungsi
         await axios.patch(`/api/products/${product.id}`, {
             title: title,
@@ -73,7 +76,7 @@ const UpdateProduct = ({brands, product}: {brands: Brand[]; product: Product}) =
 
                     <div className="modal-action">
                         <button type="button" className="btn" onClick={handleModal}>Close</button>
-                        <button type="submit" className="btn btn-primary">Update</button>
+                        <button type="submit" className="btn btn-primary">{isLoading ? 'Loading...' : 'Update'}</button>
                     </div>
                 </form>
             </div>

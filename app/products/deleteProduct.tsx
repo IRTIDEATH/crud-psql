@@ -13,8 +13,10 @@ type Product = {
 
 const DeleteProduct = ({product}: {product: Product}) => {
     const router = useRouter()
+    const [isLoading, setIsLoading] = useState(false)
 
     const handleDelete = async (productId: Number) => {
+        setIsLoading(true)
         await axios.delete(`/api/products/${productId}`)
         router.refresh()
         setIsOpen(false)
@@ -35,7 +37,7 @@ const DeleteProduct = ({product}: {product: Product}) => {
                 <h3 className="font-bold text-lg">Are you sure to delete {product.title}?</h3>            
                 <div className="modal-action">
                     <button type="button" className="btn" onClick={handleModal}>No</button>
-                    <button type="button" onClick={() => handleDelete(product.id)} className="btn btn-primary">Yes</button>
+                    <button type="button" onClick={() => handleDelete(product.id)} className="btn btn-primary">{isLoading ? 'Loading...' : 'Yes'}</button>
                 </div>
             </div>
         </div>

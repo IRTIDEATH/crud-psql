@@ -10,10 +10,13 @@ const AddProduct = ({brands}: {brands: Brand[]}) => {
     const [price, setPrice] = useState("")
     const [brand, setBrand] = useState("")
 
+    const [isLoading, setIsLoading] = useState(false)
+
     const router = useRouter()
 
     const handleSubmit = async (e: SyntheticEvent) => {
         e.preventDefault()
+        setIsLoading(true)
         // '/api/products' itu dari folder api/products yang dimana si const POST ngirim res, res nya itu create, lalu di consume sama axios dan berfungsi
         await axios.post('/api/products', {
             title: title,
@@ -70,7 +73,7 @@ const AddProduct = ({brands}: {brands: Brand[]}) => {
 
                     <div className="modal-action">
                         <button type="button" className="btn" onClick={handleModal}>Close</button>
-                        <button type="submit" className="btn btn-primary">Save</button>
+                        <button type="submit" className="btn btn-primary">{isLoading ? 'Loading...' : 'Save'}</button>
                     </div>
                 </form>
             </div>
