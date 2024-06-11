@@ -1,28 +1,9 @@
-import { PrismaClient } from "@prisma/client"
 import AddProduct from "./addProduct"
 import DeleteProduct from "./deleteProduct"
 import UpdateProduct from "./updateProduct"
-const prisma = new PrismaClient()
+import { getProducts, getBrands } from "@/lib/data"
 
 export const dynamic = "force-dynamic";
-
-const getProducts = async () => {
-    const res = await prisma.product.findMany({
-        select: {
-            id: true,
-            title: true,
-            price: true,
-            brandId: true,
-            brand: true,
-        }
-    })
-    return res
-}
-
-const getBrands = async () => {
-    const res = await prisma.brand.findMany()
-    return res
-}
 
 const Product = async () => {
     // const products = await getProducts()
@@ -34,32 +15,32 @@ const Product = async () => {
             <AddProduct brands={brands}/>
         </div>
         <table className="table w-full">
-            <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Product Name</th>
-                    <th>Prices</th>
-                    <th>Brand</th>
-                    <th className="text-center">Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                {products.map((product, index) => (
-                    <tr key={product.id}>
-                        <td>{index + 1}</td>
-                        <td>{product.title}</td>
-                        <td>{product.price && product.price.toLocaleString("id-ID", {
-                            style: "currency",
-                            currency: "IDR"
-                        })}</td>
-                        <td>{product.brand.name}</td>
-                        <td className="flex justify-center space-x-2">
-                            <UpdateProduct brands={brands} product={product}/>
-                            <DeleteProduct product={product}/>
-                        </td>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Product Name</th>
+                        <th>Prices</th>
+                        <th>Brand</th>
+                        <th className="text-center">Actions</th>
                     </tr>
-                ))}
-            </tbody>
+                </thead>
+                <tbody>
+                    {products.map((product, index) => (
+                        <tr key={product.id}>
+                            <td>{index + 1}</td>
+                            <td>{product.title}</td>
+                            <td>{product.price && product.price.toLocaleString("id-ID", {
+                                style: "currency",
+                                currency: "IDR"
+                            })}</td>
+                            <td>{product.brand.name}</td>
+                            <td className="flex justify-center space-x-2">
+                                <UpdateProduct brands={brands} product={product}/>
+                                <DeleteProduct product={product}/>
+                            </td>
+                        </tr>
+                    ))}
+                </tbody>
         </table>
     </div>
   )
